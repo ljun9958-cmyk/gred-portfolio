@@ -38,6 +38,10 @@ export default function About() {
             </p>
           </div>
 
+          <div className="mt-10 inline-flex rounded-full bg-gray-50 px-4 py-2 text-base font-bold text-gray-700 ring-1 ring-gray-100">
+            作者：李军
+          </div>
+
           <div className="mt-16 pt-10 border-t border-gray-100">
             <h3 className="font-bold text-gray-400 uppercase tracking-widest text-sm mb-6">联系我 / Contact</h3>
             <div className="flex flex-col gap-4">
