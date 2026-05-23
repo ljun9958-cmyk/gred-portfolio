@@ -1,20 +1,26 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Gred Portfolio
 
-# Run and deploy your AI Studio app
+个人作品集网站，展示数据分析、REITs 研究和 AI 产品设计相关项目。
 
-This contains everything you need to run your app locally.
+## 项目内容
 
-View your app in AI Studio: https://ai.studio/apps/532eccbb-a659-47ee-acb6-7e63c88638c6
+- 首页作品集展示
+- REITs 数据研究与可视化项目
+- CityVibe AI 旅行助手产品案例
+- About 页面
 
-## Run Locally
+## 技术栈
 
-**Prerequisites:**  Node.js
+- React
+- TypeScript
+- Vite
+- React Router
+- Tailwind CSS
+- Motion
+- Lucide React
 
+## 本地运行
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+npm install
+npm run dev
