@@ -16,6 +16,7 @@ import {
   MousePointer2,
   Navigation,
   PanelRightOpen,
+  PlayCircle,
   RefreshCw,
   Route,
   Send,
@@ -27,6 +28,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import VideoModal from '../components/VideoModal';
 
 type IconType = React.ComponentType<{ size?: number; className?: string; strokeWidth?: number }>;
 
@@ -327,6 +329,8 @@ const ModuleBlock: React.FC<{ module: typeof modules[number]; index: number }> =
 );
 
 export default function CityVibeProject() {
+  const [isDemoOpen, setIsDemoOpen] = React.useState(false);
+
   return (
     <div className="min-h-screen bg-[#f7f8fb] pt-11 pb-32 font-sans selection:bg-orange-100 selection:text-orange-700">
       <div className="mx-auto max-w-7xl px-6">
@@ -338,6 +342,16 @@ export default function CityVibeProject() {
         <header className="relative mb-28 overflow-hidden rounded-[3rem] border border-orange-100 bg-white p-8 shadow-sm md:p-12 lg:p-16">
           <div className="absolute -right-28 -top-28 h-80 w-80 rounded-full bg-orange-100 blur-3xl" />
           <div className="absolute -bottom-32 left-1/3 h-72 w-72 rounded-full bg-blue-100 blur-3xl" />
+          <div className="relative z-10 mb-8">
+            <button
+              type="button"
+              onClick={() => setIsDemoOpen(true)}
+              className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-4 py-2 text-sm font-black text-white shadow-lg shadow-orange-200 transition hover:-translate-y-0.5 hover:bg-orange-600"
+            >
+              <PlayCircle size={17} strokeWidth={2.8} />
+              观看演示
+            </button>
+          </div>
           <div className="relative grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div>
               <div className="mb-7 flex flex-wrap gap-3">
@@ -569,6 +583,14 @@ export default function CityVibeProject() {
           </div>
         </footer>
       </div>
+      <VideoModal
+        open={isDemoOpen}
+        src="/videos/ai-travel-demo.mp4"
+        title="CityVibe AI 旅行助手演示"
+        description="演示 AI 生成行程、查看详情、局部调整与导出计划表。"
+        tone="orange"
+        onClose={() => setIsDemoOpen(false)}
+      />
     </div>
   );
 }

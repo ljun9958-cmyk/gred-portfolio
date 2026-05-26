@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import {
@@ -6,11 +7,20 @@ import {
   Code2,
   Compass,
   Database,
+  PlayCircle,
   Smartphone,
   Target,
 } from 'lucide-react';
+import VideoModal from '../components/VideoModal';
 
 type Tone = 'blue' | 'orange';
+
+type DemoVideo = {
+  src: string;
+  title: string;
+  description: string;
+  tone: Tone;
+};
 
 const projects = [
   {
@@ -22,6 +32,12 @@ const projects = [
     caseNo: 'Case Study 01',
     title: '城市更新 REITs 全链条博弈决策辅助系统',
     tags: ['REITs', '城市更新', '数据分析', '博弈模拟'],
+    demo: {
+      src: '/videos/reits-system-demo.mp4',
+      title: 'REITs 决策系统演示',
+      description: '演示数据录入、分析视图、图表输出与决策辅助流程。',
+      tone: 'blue' as Tone,
+    },
     metrics: [
       ['53', '产权类基金'],
       ['128', '底层资产'],
@@ -37,6 +53,12 @@ const projects = [
     caseNo: 'Case Study 02',
     title: 'CityVibe · AI 旅行助手',
     tags: ['AI 产品', '移动端', '旅行规划', '导出分享'],
+    demo: {
+      src: '/videos/ai-travel-demo.mp4',
+      title: 'CityVibe AI 旅行助手演示',
+      description: '演示 AI 生成行程、查看详情、局部调整与导出计划表。',
+      tone: 'orange' as Tone,
+    },
     metrics: [
       ['5 类', '前台模块'],
       ['6 步', '导出链路'],
@@ -74,12 +96,14 @@ function toneClass(tone: Tone) {
         text: 'text-blue-600',
         pale: 'bg-blue-50 text-blue-700 border-blue-100',
         button: 'bg-blue-600 hover:bg-blue-700 shadow-blue-200',
+        demo: 'border-blue-100 bg-blue-600 text-white shadow-blue-200 hover:bg-blue-700',
         titleHover: 'group-hover:text-blue-600',
       }
     : {
         text: 'text-orange-600',
         pale: 'bg-orange-50 text-orange-700 border-orange-100',
         button: 'bg-orange-500 hover:bg-orange-600 shadow-orange-200',
+        demo: 'border-orange-100 bg-orange-500 text-white shadow-orange-200 hover:bg-orange-600',
         titleHover: 'group-hover:text-orange-600',
       };
 }
@@ -145,19 +169,20 @@ function CompactPreview({ type }: { type: 'reits' | 'cityvibe' }) {
   );
 }
 
-function ProjectCard({ project, index }: { project: (typeof projects)[number]; index: number }) {
+function ProjectCard({ project, index, onPlayDemo }: { project: (typeof projects)[number]; index: number; onPlayDemo: (demo: DemoVideo) => void }) {
   const Icon = project.icon;
   const cls = toneClass(project.tone);
 
   return (
-    <Link to={project.to} className="block h-full min-h-0 overflow-hidden group">
+    <div className="block h-full min-h-0 overflow-hidden group">
       <motion.article
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.3 + index * 0.08, duration: 0.55 }}
-        className="grid h-full min-h-0 overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl lg:grid-rows-[auto_minmax(0,1fr)]"
+        className="relative grid h-full min-h-0 overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl lg:grid-rows-[auto_minmax(0,1fr)]"
       >
-        <div className="flex min-h-0 flex-col p-3.5 lg:p-4">
+        <Link to={project.to} className="absolute inset-0 z-0" aria-label={`打开${project.title}`} />
+        <div className="pointer-events-none relative z-10 flex min-h-0 flex-col p-3.5 lg:p-4">
           {/* 顶部仅保留项目识别、标签和指标，避免描述文字挤占首屏。 */}
           <div className="mb-2.5 flex items-center gap-2.5">
             <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border ${cls.pale}`}>
@@ -184,6 +209,14 @@ function ProjectCard({ project, index }: { project: (typeof projects)[number]; i
                 {tag}
               </span>
             ))}
+            <button
+              type="button"
+              onClick={() => onPlayDemo(project.demo)}
+              className={`pointer-events-auto inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] font-black shadow-sm transition ${cls.demo}`}
+            >
+              <PlayCircle size={12} strokeWidth={2.7} />
+              观看演示
+            </button>
           </div>
 
           <div className="mt-2.5 grid grid-cols-3 gap-2">
@@ -196,11 +229,11 @@ function ProjectCard({ project, index }: { project: (typeof projects)[number]; i
           </div>
         </div>
 
-        <div className="min-h-0 overflow-hidden p-2.5 pt-0">
+        <div className="pointer-events-none relative z-10 min-h-0 overflow-hidden p-2.5 pt-0">
           <CompactPreview type={project.key as 'reits' | 'cityvibe'} />
         </div>
       </motion.article>
-    </Link>
+    </div>
   );
 }
 
@@ -226,6 +259,8 @@ function CapabilityBar({ item, index }: { item: (typeof capabilities)[number]; i
 }
 
 export default function Home() {
+  const [activeDemo, setActiveDemo] = useState<DemoVideo | null>(null);
+
   return (
     <div className="mesh-gradient flex min-h-screen flex-col px-5 pb-5 pt-5 lg:h-screen lg:min-h-0 lg:overflow-hidden">
       <div className="mx-auto flex min-h-0 w-full max-w-[1160px] flex-1 flex-col justify-center gap-3.5">
@@ -266,7 +301,7 @@ export default function Home() {
         <section className="grid grid-cols-1 gap-3.5 lg:h-[min(31rem,calc(100vh-16rem))] lg:min-h-0 lg:-translate-y-12 lg:grid-cols-2 lg:grid-rows-[minmax(0,1fr)] lg:overflow-hidden">
           {projects.map((project, index) => (
             <div key={project.key} className="min-h-0">
-              <ProjectCard project={project} index={index} />
+              <ProjectCard project={project} index={index} onPlayDemo={setActiveDemo} />
             </div>
           ))}
         </section>
@@ -279,6 +314,14 @@ export default function Home() {
           ))}
         </section>
       </div>
+      <VideoModal
+        open={Boolean(activeDemo)}
+        src={activeDemo?.src || ''}
+        title={activeDemo?.title || ''}
+        description={activeDemo?.description}
+        tone={activeDemo?.tone}
+        onClose={() => setActiveDemo(null)}
+      />
     </div>
   );
 }

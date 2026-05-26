@@ -11,6 +11,7 @@ import {
   LineChart,
   MapPinned,
   Network,
+  PlayCircle,
   Puzzle,
   Radar,
   SlidersHorizontal,
@@ -19,6 +20,7 @@ import {
   Workflow,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import VideoModal from '../components/VideoModal';
 
 type IconType = React.ComponentType<{ size?: number; className?: string; strokeWidth?: number }>;
 
@@ -201,6 +203,8 @@ const decisionFlow = [
 ] as const;
 
 export default function REITsProject() {
+  const [isDemoOpen, setIsDemoOpen] = React.useState(false);
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] pt-11 pb-32 font-sans selection:bg-blue-100 selection:text-blue-600">
       <div className="mx-auto max-w-7xl px-6">
@@ -217,6 +221,16 @@ export default function REITsProject() {
         >
           <div className="absolute -right-28 -top-28 h-80 w-80 rounded-full bg-blue-100 blur-3xl" />
           <div className="absolute -bottom-32 left-1/3 h-72 w-72 rounded-full bg-indigo-100 blur-3xl" />
+          <div className="relative z-10 mb-8">
+            <button
+              type="button"
+              onClick={() => setIsDemoOpen(true)}
+              className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-sm font-black text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5 hover:bg-blue-700"
+            >
+              <PlayCircle size={17} strokeWidth={2.8} />
+              观看演示
+            </button>
+          </div>
           <div className="relative grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div>
               <div className="mb-7 flex flex-wrap gap-3">
@@ -497,6 +511,14 @@ export default function REITsProject() {
           </div>
         </footer>
       </div>
+      <VideoModal
+        open={isDemoOpen}
+        src="/videos/reits-system-demo.mp4"
+        title="REITs 决策系统演示"
+        description="演示数据录入、分析视图、图表输出与决策辅助流程。"
+        tone="blue"
+        onClose={() => setIsDemoOpen(false)}
+      />
     </div>
   );
 }
