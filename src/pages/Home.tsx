@@ -174,7 +174,7 @@ function ProjectCard({ project, index, onPlayDemo }: { project: (typeof projects
   const cls = toneClass(project.tone);
 
   return (
-    <div className="block h-full min-h-0 overflow-hidden group">
+    <div className="relative h-full min-h-0 group">
       <motion.article
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -209,14 +209,6 @@ function ProjectCard({ project, index, onPlayDemo }: { project: (typeof projects
                 {tag}
               </span>
             ))}
-            <button
-              type="button"
-              onClick={() => onPlayDemo(project.demo)}
-              className={`pointer-events-auto inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] font-black shadow-sm transition ${cls.demo}`}
-            >
-              <PlayCircle size={12} strokeWidth={2.7} />
-              观看演示
-            </button>
           </div>
 
           <div className="mt-2.5 grid grid-cols-3 gap-2">
@@ -233,6 +225,17 @@ function ProjectCard({ project, index, onPlayDemo }: { project: (typeof projects
           <CompactPreview type={project.key as 'reits' | 'cityvibe'} />
         </div>
       </motion.article>
+      <motion.button
+        type="button"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.42 + index * 0.08, duration: 0.4 }}
+        onClick={() => onPlayDemo(project.demo)}
+        className={`relative z-20 mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl border text-sm font-black shadow-sm transition hover:-translate-y-0.5 hover:shadow-md lg:absolute lg:left-0 lg:top-full lg:mt-3 ${cls.demo}`}
+      >
+        <PlayCircle size={16} strokeWidth={2.7} />
+        观看演示
+      </motion.button>
     </div>
   );
 }
@@ -298,7 +301,7 @@ export default function Home() {
           </div>
         </header>
 
-        <section className="grid grid-cols-1 gap-3.5 lg:h-[min(31rem,calc(100vh-16rem))] lg:min-h-0 lg:-translate-y-12 lg:grid-cols-2 lg:grid-rows-[minmax(0,1fr)] lg:overflow-hidden">
+        <section className="grid grid-cols-1 gap-3.5 lg:h-[min(31rem,calc(100vh-16rem))] lg:min-h-0 lg:-translate-y-12 lg:grid-cols-2 lg:grid-rows-[minmax(0,1fr)]">
           {projects.map((project, index) => (
             <div key={project.key} className="min-h-0">
               <ProjectCard project={project} index={index} onPlayDemo={setActiveDemo} />
