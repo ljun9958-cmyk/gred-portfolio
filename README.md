@@ -1,4 +1,4 @@
-# Gred Portfolio 时间: 2026.7.17 版本: V1
+# Gred Portfolio
 
 个人作品集网站，展示数据分析、REITs 研究和 AI 产品设计相关项目。
 
