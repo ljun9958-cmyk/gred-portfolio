@@ -13,8 +13,10 @@ import {
   Target,
 } from 'lucide-react';
 import VideoModal from '../components/VideoModal';
+import GUIDemoButtons from '../components/GUIDemoButtons';
+import { GUI_METRICS } from '../data/guiProject';
 
-type Tone = 'blue' | 'orange';
+type Tone = 'blue' | 'orange' | 'cyan';
 type ProjectKey = 'gui' | 'reits' | 'cityvibe';
 type DemoVideo = {
   src: string;
@@ -40,14 +42,14 @@ const projects: Project[] = [
   {
     key: 'gui',
     to: '/gui',
-    tone: 'blue',
+    tone: 'cyan',
     icon: MonitorCheck,
     eyebrow: 'AI WORKFLOW · DESKTOP TOOL',
     caseNo: 'Case Study 01',
     title: 'GUI 操作轨迹质检与受控修复工具',
     tags: ['AI 质检', '桌面工具', 'Skill 工作流', '受控修复'],
     metrics: [
-      ['1,000+', '参与处理任务'],
+      [GUI_METRICS.processed, '已处理数据'],
       ['2 套', '检查 / 修改 Skill'],
       ['5 阶段', '递进质检'],
     ],
@@ -112,6 +114,15 @@ const capabilities = [
 ];
 
 function toneClass(tone: Tone) {
+  if (tone === 'cyan') {
+    return {
+      text: 'text-cyan-600',
+      pale: 'bg-cyan-50 text-cyan-700 border-cyan-100',
+      button: 'bg-cyan-600 hover:bg-cyan-700 shadow-cyan-200',
+      demo: 'border-cyan-100 bg-cyan-600 text-white shadow-cyan-200 hover:bg-cyan-700',
+      titleHover: 'group-hover:text-cyan-600',
+    };
+  }
   return tone === 'blue'
     ? {
         text: 'text-blue-600',
@@ -133,7 +144,7 @@ function toneClass(tone: Tone) {
 function CompactPreview({ type }: { type: ProjectKey }) {
   if (type === 'gui') {
     return (
-      <div className="grid h-full min-h-0 grid-rows-[1fr_0.44fr] gap-2 overflow-hidden rounded-xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-2">
+      <div className="grid h-full min-h-0 grid-rows-[1fr_0.44fr] gap-2 overflow-hidden rounded-xl border border-cyan-100 bg-gradient-to-br from-cyan-50 to-white p-2">
         <div className="min-h-0 overflow-hidden rounded-lg bg-white p-1.5 shadow-sm">
           <img
             src="/gui/overview.webp"
@@ -150,7 +161,7 @@ function CompactPreview({ type }: { type: ProjectKey }) {
             />
           </div>
           <div className="flex min-h-0 flex-col justify-center rounded-lg bg-slate-950 px-3 py-2 text-white">
-            <div className="text-[11px] font-black text-blue-200">检查 · 复核 · 修复</div>
+            <div className="text-[11px] font-black text-cyan-200">检查 · 复核 · 修复</div>
             <div className="mt-1 text-xs font-bold leading-5">
               分轮核验证据
               <br />
@@ -335,7 +346,9 @@ function ProjectCard({
           </div>
         </motion.article>
       </Link>
-      {demo ? (
+      {project.key === 'gui' ? (
+        <GUIDemoButtons onPlayDemo={onPlayDemo} />
+      ) : demo ? (
         <button type="button" onClick={() => onPlayDemo(demo)} className={actionClass}>
           <PlayCircle size={16} strokeWidth={2.7} />
           观看演示

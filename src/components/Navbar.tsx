@@ -26,7 +26,11 @@ export default function Navbar() {
                 aria-label={item.name}
                 aria-current={isActive ? 'page' : undefined}
                 className={`relative px-3 py-2.5 md:py-1.5 rounded-full text-[11px] font-bold transition-all flex items-center gap-1.5 ${
-                  isActive ? 'text-blue-600' : 'text-gray-500 hover:text-gray-900'
+                  isActive
+                    ? item.path === '/gui'
+                      ? 'text-cyan-700'
+                      : 'text-blue-600'
+                    : 'text-gray-500 hover:text-gray-900'
                 }`}
               >
                 {isActive && (
