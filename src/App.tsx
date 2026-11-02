@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import GUIProject from './pages/GUIProject';
 import REITsProject from './pages/REITsProject';
 import CityVibeProject from './pages/CityVibeProject';
 import About from './pages/About';
@@ -27,6 +28,7 @@ export default function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/gui" element={<GUIProject />} />
           <Route path="/reits" element={<REITsProject />} />
           <Route path="/cityvibe" element={<CityVibeProject />} />
           <Route path="/about" element={<About />} />

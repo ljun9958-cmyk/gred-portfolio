@@ -1,12 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Home, BarChart2, Map, User } from 'lucide-react';
+import { Home, BarChart2, Map, MonitorCheck, User } from 'lucide-react';
 
 export default function Navbar() {
   const location = useLocation();
 
   const navItems = [
     { name: 'Home', path: '/', icon: Home },
+    { name: 'GUI Project', path: '/gui', icon: MonitorCheck },
     { name: 'REITs Project', path: '/reits', icon: BarChart2 },
     { name: 'CityVibe Project', path: '/cityvibe', icon: Map },
     { name: 'About', path: '/about', icon: User },
@@ -22,7 +23,9 @@ export default function Navbar() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`relative px-3 py-1.5 rounded-full text-[11px] font-bold transition-all flex items-center gap-1.5 ${
+                aria-label={item.name}
+                aria-current={isActive ? 'page' : undefined}
+                className={`relative px-3 py-2.5 md:py-1.5 rounded-full text-[11px] font-bold transition-all flex items-center gap-1.5 ${
                   isActive ? 'text-blue-600' : 'text-gray-500 hover:text-gray-900'
                 }`}
               >
